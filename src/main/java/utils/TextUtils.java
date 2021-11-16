@@ -8,7 +8,7 @@ import java.io.StringWriter;
  * @Author lizhen
  * @Date 2021年11月02日1:27 下午
  */
-public class TextUtility {
+public class TextUtils {
 
 
 
