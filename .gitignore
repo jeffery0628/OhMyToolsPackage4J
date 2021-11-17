@@ -1,7 +1,7 @@
 # Compiled class file
 *.class
 /src/main/resources/*
-
+/target/*
 # Log file
 *.log
 

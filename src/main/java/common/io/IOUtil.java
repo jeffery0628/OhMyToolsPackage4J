@@ -349,7 +349,7 @@ public class IOUtil {
      * @param folder   目录
      * @param fileList 储存文件
      */
-    private static void enumerate(File folder, List<File> fileList) {
+    private static void recursiveDirectory(File folder, List<File> fileList) {
         File[] fileArray = folder.listFiles();
         if (fileArray != null) {
             for (File file : fileArray) {
@@ -357,7 +357,7 @@ public class IOUtil {
                 {
                     fileList.add(file);
                 } else {
-                    enumerate(file, fileList);
+                    recursiveDirectory(file, fileList);
                 }
             }
         }
@@ -369,11 +369,11 @@ public class IOUtil {
      * @param path 根目录
      * @return 文件列表
      */
-    public static List<File> fileList(String path) {
+    public static List<File> getDirectoryFiles(String path) {
         List<File> fileList = new LinkedList<File>();
         File folder = new File(path);
         if (folder.isDirectory())
-            enumerate(folder, fileList);
+            recursiveDirectory(folder, fileList);
         else
             fileList.add(folder); // 兼容路径为文件的情况
         return fileList;
@@ -386,7 +386,7 @@ public class IOUtil {
      * @return
      */
 
-    public static String baseName(String path) {
+    public static String getFileBaseName(String path) {
         if (path == null || path.length() == 0)
             return "";
         path = path.replaceAll("[/\\\\]+", "/");
@@ -414,6 +414,17 @@ public class IOUtil {
             }
         }
         return "";
+    }
+
+    /**
+     * 获取最后一个分隔符的后缀,比如文件后缀
+     * @param name
+     * @param delimiter
+     * @return
+     */
+    public static String getFileSuffix(String name, String delimiter)
+    {
+        return name.substring(name.lastIndexOf(delimiter) + 1);
     }
 
     /**
@@ -459,14 +470,6 @@ public class IOUtil {
      */
     public static BufferedReader newBufferedReader(String path) throws IOException {
         return new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        String path = "src/main/resources/model/test.txt";
-        BufferedWriter bufferedWriter = newBufferedWriter(path,false);
-        bufferedWriter.close();
-
     }
 
 }
